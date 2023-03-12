@@ -141,8 +141,8 @@ button:focus-visible {
   width: 100%;
   background-color: #c983955d;
   border-radius: 0;
-  width:100px;
-  height: 100px;
+  width:15vw;
+  height: 15vw;
 }
 .completed{
   background-color: rgba(60, 143, 59, 0.505);
@@ -172,5 +172,18 @@ button:focus-visible {
 }
 .team-switcher a {
   padding: 2rem;
+  cursor: pointer;
+}
+
+.team-modifier {
+  background-color: #5c5c5c;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: #fff;
+  line-height: 1rem;
+  height: 1rem;
+  width: 1rem;
+}
+.team-modifier:hover {
   cursor: pointer;
 }

@@ -132,9 +132,11 @@ function BingoCard({id, bingoData}: {id:number, bingoData: BWindow[][]}) {
     <>
     <div>
       <div className='team-switcher'>
+        {/* <div className="team-modifier"><span className="icon">-</span></div> */}
         <a onClick={e=>prevTeam(e)}>&lt;</a>
         <h1>Team: {teamId}</h1>
         <a onClick={e=>nextTeam(e)}>&gt;</a>
+        {/* <div className="team-modifier"><span className="icon">+</span></div> */}
       </div>
       <button onClick={handleChangeEdit}>Edit: {editMode?'ON':'OFF'}</button>
       {/* <button onClick={getBingoData} >GetData</button> */}
