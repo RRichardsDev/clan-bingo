@@ -18,13 +18,13 @@ function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
   const [bingoLayout, setBingoLayout] = useState(Array.from({length: boardSize.x},
     () => Array.from({length: boardSize.y}, () => {return {title:'-', completed:false}})));
   // console.log(bingoLayout)
-  // const getBingoData = async () => {
-  //   const res =  await (await fetch("/api/bingoData")).json();
-  //   const tableData:BWindow[][] = await res.response.data;
-  //   console.log(tableData)
-  //   setBingoLayout(tableData);
-  //   // return tableData;
-  // }
+  const getBingoData = async () => {
+    const res =  await (await fetch("/api/bingoData")).json();
+    const tableData:BWindow[][] = await res.data;
+    console.log(tableData)
+    setBingoLayout(tableData);
+    // return tableData;
+  }
   useEffect(() => {
     console.log({bingoData})
     setBingoLayout(bingoData)
@@ -115,7 +115,7 @@ function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
     <>
     <div>
     <button onClick={handleChangeEdit}>Edit: {editMode?'ON':'OFF'}</button>
-    {/* <button onClick={getBingoData} >GetData</button> */}
+    <button onClick={getBingoData} >GetData</button>
 
     </div>
       <div id="bingo-card" className="bingo-card">
