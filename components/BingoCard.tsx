@@ -17,39 +17,17 @@ function BingoCard({id, bingoData}: {id:number, bingoData: BWindow[][]}) {
   const [boardSize, setBoardSize] = useState({x:5, y:5});
   const [bingoLayout, setBingoLayout] = useState(Array.from({length: boardSize.x},
     () => Array.from({length: boardSize.y}, () => {return {title:'-', completed:false}})));
-  // console.log(bingoLayout)
   const getBingoData = async (id:number) => {
     console.log(id)
     const res = await( await fetch(`/api/bingoData?id=${id}`)).json()
     const tableData:BWindow[][] = await res.data;
-    // console.log(res)
-    // console.log(tableData)
+
     setBingoLayout(tableData);
-    // return tableData;
   }
   useEffect(() => {
-    // console.log({bingoData})
     setBingoLayout(bingoData)
-    // console.log(props)
-    // fetch("/api/bingoData")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data)
-    //     setBingoLayout(data.response.data)
-    //   })
   },[])
-  useEffect(() => {
-    // getBingoData()
-    // console.log({bingoData})
-    // setBingoLayout(bingoData)
-    // console.log(props)
-    // fetch("/api/bingoData")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data)
-    //     setBingoLayout(data.response.data)
-    //   })
-  },[teamId])
+
   //   fetch("/api/bingoData", {
   //   method: "POST",
   //   headers: {
@@ -84,7 +62,6 @@ function BingoCard({id, bingoData}: {id:number, bingoData: BWindow[][]}) {
   const handleChangeEdit = () => {
     setEditMode(editMode => !editMode)
     if (editMode) updateTile();
-    // console.log(editMode)
   };
   const handleSizeChange = (e: React.ChangeEvent<HTMLInputElement>, direction:string) => {
     console.log(e.target.value)
@@ -146,7 +123,7 @@ function BingoCard({id, bingoData}: {id:number, bingoData: BWindow[][]}) {
       getBingoData(MAXNUMBER)
       window.history.replaceState(null, "New Page Title", `/Bingo?id=${MAXNUMBER}`)
     } else {
-      window.history.replaceState(null, "New Page Title", `/Bingo?id=${Number(teamId)-1}}`)
+      window.history.replaceState(null, "New Page Title", `/Bingo?id=${Number(teamId)-1}`)
       setTeamId(tid => {return Number(tid)-1});
       getBingoData(Number(teamId)-1)
     }
