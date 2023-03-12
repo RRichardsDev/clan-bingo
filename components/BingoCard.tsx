@@ -2,13 +2,15 @@ import React, { ChangeEventHandler, ReactComponentElement, ReactElement, useEffe
 import reactLogo from './assets/react.svg'
 import BingoWindow from './BingoWindow';
 import styles from 'BingoCard.module.css'
+import { GetServerSideProps } from 'next';
 
 type BWindow = {
   title: string
   completed: boolean
 }
 
-function BingoCard() {
+function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
+  // console.log(props.bingoLayout)
 
   const [selectedImage, setSelectedImage] = useState('https://cdn.vox-cdn.com/thumbor/IMFfzD-KQoJaVcrU8mWBqBa3gTo=/0x0:1698x934/1200x800/filters:focal(714x332:984x602)/cdn.vox-cdn.com/uploads/chorus_image/image/66166929/NeedleSkips.0.png');
   const [editMode, setEditMode] = useState(false);
@@ -16,20 +18,23 @@ function BingoCard() {
   const [bingoLayout, setBingoLayout] = useState(Array.from({length: boardSize.x},
     () => Array.from({length: boardSize.y}, () => {return {title:'-', completed:false}})));
   // console.log(bingoLayout)
-  const getBingoData = async () => {
-    const res =  await (await fetch("/api/bingoData")).json();
-    const tableData:BWindow[][] = await res.response.data;
-    console.log(tableData)
-    setBingoLayout(tableData);
-    // return tableData;
-  }
+  // const getBingoData = async () => {
+  //   const res =  await (await fetch("/api/bingoData")).json();
+  //   const tableData:BWindow[][] = await res.response.data;
+  //   console.log(tableData)
+  //   setBingoLayout(tableData);
+  //   // return tableData;
+  // }
   useEffect(() => {
-    fetch("/api/bingoData")
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        setBingoLayout(data.response.data)
-      })
+    console.log({bingoData})
+    setBingoLayout(bingoData)
+    // console.log(props)
+    // fetch("/api/bingoData")
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data)
+    //     setBingoLayout(data.response.data)
+    //   })
   },[])
   //   fetch("/api/bingoData", {
   //   method: "POST",
@@ -62,7 +67,11 @@ function BingoCard() {
     updateTile();
 
   };
-  const handleChangeEdit = () => setEditMode(editMode => !editMode);
+  const handleChangeEdit = () => {
+    setEditMode(editMode => !editMode)
+    if (editMode) updateTile();
+    // console.log(editMode)
+  };
   const handleSizeChange = (e: React.ChangeEvent<HTMLInputElement>, direction:string) => {
     console.log(e.target.value)
     if(direction === 'x') setBoardSize( {x: parseInt(e.target.value), y: boardSize.y});
@@ -106,7 +115,7 @@ function BingoCard() {
     <>
     <div>
     <button onClick={handleChangeEdit}>Edit: {editMode?'ON':'OFF'}</button>
-    <button onClick={getBingoData} >GetData</button>
+    {/* <button onClick={getBingoData} >GetData</button> */}
 
     </div>
       <div id="bingo-card" className="bingo-card">
@@ -119,3 +128,16 @@ function BingoCard() {
 }
 
 export default BingoCard
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const res = await fetch('http://localhost:3000/api/bingoData')
+  const data = await res.json()
+  console.log(data)
+  return {
+    props: {
+      bingoLayout: data.response.data
+    }
+  }
+
+}
+
+
