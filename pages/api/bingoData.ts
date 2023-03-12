@@ -4,12 +4,13 @@ import { BWindow } from "../../components/BingoCard";
 type TData = {
   response: any
 }
+const MONGODB_URI= "mongodb+srv://bingo-admin:hSCwcGCCNJ8tL724@myatlasclusteredu.lotklce.mongodb.net/?retryWrites=true&w=majority"
 async function getBingoData(): Promise<any> {
-  if (!process.env.MONGODB_URI) {
+  if (!MONGODB_URI) {
     throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
   }
   
-  const uri = process.env.MONGODB_URI
+  const uri = MONGODB_URI
   const options = {}
   
   let client
@@ -34,11 +35,11 @@ export default function handler(
 
 
   async function saveBingoDataToMongo(data:any) {
-    if (!process.env.MONGODB_URI) {
+    if (!MONGODB_URI) {
       throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
     }
     
-    const uri = process.env.MONGODB_URI
+    const uri = MONGODB_URI
     const options = {}
     
     let client
@@ -52,11 +53,11 @@ export default function handler(
     res.send({response: 'ok'});
   }
   async function updateBingoData(data:any) {
-    if (!process.env.MONGODB_URI) {
+    if (!MONGODB_URI) {
       throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
     }
     
-    const uri = process.env.MONGODB_URI
+    const uri = MONGODB_URI
     const options = {}
     const arrayData = JSON.parse(data);
     
