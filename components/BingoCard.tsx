@@ -17,21 +17,21 @@ function BingoCard() {
     () => Array.from({length: boardSize.y}, () => {return {title:'-', completed:false}})));
   // console.log(bingoLayout)
   const getBingoData = async () => {
-    const res =  await (await fetch("http://localhost:3000/api/bingoData")).json();
+    const res =  await (await fetch("/api/bingoData")).json();
     const tableData:BWindow[][] = await res.response.data;
     console.log(tableData)
     setBingoLayout(tableData);
     // return tableData;
   }
   useEffect(() => {
-    fetch("http://localhost:3000/api/bingoData")
+    fetch("/api/bingoData")
       .then(res => res.json())
       .then(data => {
         console.log(data)
         setBingoLayout(data.response.data)
       })
   },[])
-  //   fetch("http://localhost:3000/api/bingoData", {
+  //   fetch("/api/bingoData", {
   //   method: "POST",
   //   headers: {
   //     "Content-Type": "application/json",
@@ -98,7 +98,7 @@ function BingoCard() {
   );
   
   const updateTile = async () => {
-    fetch("http://localhost:3000/api/bingoData", {method: 'PUT', body: JSON.stringify(bingoLayout)})
+    fetch("/api/bingoData", {method: 'PUT', body: JSON.stringify(bingoLayout)})
     .catch(err => console.log(err))
   };
 
