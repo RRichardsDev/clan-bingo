@@ -4,7 +4,7 @@ import BingoWindow from './BingoWindow';
 import styles from 'BingoCard.module.css'
 import { GetServerSideProps } from 'next';
 
-type BWindow = {
+export type BWindow = {
   title: string
   completed: boolean
 }
@@ -128,16 +128,16 @@ function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
 }
 
 export default BingoCard
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/bingoData')
-  const data = await res.json()
-  console.log(data)
-  return {
-    props: {
-      bingoLayout: data.response.data
-    }
-  }
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const res = await fetch('http://localhost:3000/api/bingoData')
+//   const data = await res.json()
+//   console.log(data)
+//   return {
+//     props: {
+//       bingoLayout: data.response.data
+//     }
+//   }
 
-}
+// }
 
 

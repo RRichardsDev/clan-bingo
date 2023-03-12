@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient, ServerApiVersion }  from 'mongodb';
+import { BWindow } from "../../components/BingoCard";
 type TData = {
   response: any
 }
@@ -10,30 +11,13 @@ export default function handler(
 ) {
   console.log(req.method);
   if (req.method === 'GET')
-   getBingoData(req.body);
+   getBingoData();
   else if (req.method === 'POST')
    saveBingoDataToMongo(req.body);
    else if (req.method === 'PUT')
     updateBingoData(req.body);
 
-  async function getBingoData(data:any) {
-    if (!process.env.MONGODB_URI) {
-      throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
-    }
-    
-    const uri = process.env.MONGODB_URI
-    const options = {}
-    
-    let client
-    client = new MongoClient(uri, options)
-    client.connect().then(conn => {
-      conn.db('bingo').collection('data').findOne({tableId:1}).then(doc => {
-        console.log(doc);
-        return res.send({response: doc});
-      })
 
-    })
-  }
   async function saveBingoDataToMongo(data:any) {
     if (!process.env.MONGODB_URI) {
       throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
@@ -72,6 +56,27 @@ export default function handler(
     })
     res.send({response: 'ok'});
   }
-  
 }
-export {};
+async function getBingoData(): Promise<any> {
+  if (!process.env.MONGODB_URI) {
+    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
+  }
+  
+  const uri = process.env.MONGODB_URI
+  const options = {}
+  
+  let client
+  client = await new MongoClient(uri, options)
+  return await client.connect().then(conn => {
+    return conn.db('bingo').collection('data').findOne({tableId:1}).then((doc) => {
+      console.log(doc);
+      return doc
+    })
+    .catch(err => {
+      console.log(err);
+      return {};
+    })
+
+  })
+}
+export { getBingoData }
