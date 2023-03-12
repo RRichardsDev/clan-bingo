@@ -5,26 +5,32 @@ import BingoCard  from '../components/BingoCard'
 import { getBingoData } from './api/bingoData'
 // import '../style/board-style.css'
 
-const Home:NextPage = (props:any) => {
+const Bingo:NextPage = (props:any) => {
   // console.log(props.bingoLayout)
 
   return (
     <div className="container">
-      <BingoCard 
+      <BingoCard
+        id={props.id}
         bingoData={props.bingoLayout}
       />
     </div>
   )
 }
 
-export default Home
+export default Bingo
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const res = await getBingoData();
+  // console.log({context})
+  const { id } = context.query;
+  if (!id) return {props: {}};
+  console.log(id)
+  const res = await getBingoData(Number(id));
   // if (data !== undefined) 
-  console.log(res.data)
+  // console.log(res.data)
     return {
       props: {
+        id: id,
         bingoLayout: res.data
       }
     }

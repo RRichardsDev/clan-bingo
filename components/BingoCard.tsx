@@ -9,24 +9,26 @@ export type BWindow = {
   completed: boolean
 }
 
-function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
+function BingoCard({id, bingoData}: {id:number, bingoData: BWindow[][]}) {
   // console.log(props.bingoLayout)
-
+  const [ teamId, setTeamId ] = useState(id);
   const [selectedImage, setSelectedImage] = useState('https://cdn.vox-cdn.com/thumbor/IMFfzD-KQoJaVcrU8mWBqBa3gTo=/0x0:1698x934/1200x800/filters:focal(714x332:984x602)/cdn.vox-cdn.com/uploads/chorus_image/image/66166929/NeedleSkips.0.png');
   const [editMode, setEditMode] = useState(false);
   const [boardSize, setBoardSize] = useState({x:5, y:5});
   const [bingoLayout, setBingoLayout] = useState(Array.from({length: boardSize.x},
     () => Array.from({length: boardSize.y}, () => {return {title:'-', completed:false}})));
   // console.log(bingoLayout)
-  const getBingoData = async () => {
-    const res =  await (await fetch("/api/bingoData")).json();
+  const getBingoData = async (id:number) => {
+    console.log(id)
+    const res = await( await fetch(`/api/bingoData?id=${id}`)).json()
     const tableData:BWindow[][] = await res.data;
-    console.log(tableData)
+    // console.log(res)
+    // console.log(tableData)
     setBingoLayout(tableData);
     // return tableData;
   }
   useEffect(() => {
-    console.log({bingoData})
+    // console.log({bingoData})
     setBingoLayout(bingoData)
     // console.log(props)
     // fetch("/api/bingoData")
@@ -36,6 +38,18 @@ function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
     //     setBingoLayout(data.response.data)
     //   })
   },[])
+  useEffect(() => {
+    // getBingoData()
+    // console.log({bingoData})
+    // setBingoLayout(bingoData)
+    // console.log(props)
+    // fetch("/api/bingoData")
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data)
+    //     setBingoLayout(data.response.data)
+    //   })
+  },[teamId])
   //   fetch("/api/bingoData", {
   //   method: "POST",
   //   headers: {
@@ -105,24 +119,54 @@ function BingoCard({bingoData}: {bingoData: BWindow[][]}) {
         </li>
     })
   );
-  
+  const MAXNUMBER = 2
+  const MINNUMBER = 1
   const updateTile = async () => {
-    fetch("/api/bingoData", {method: 'PUT', body: JSON.stringify(bingoLayout)})
+    console.log(id);
+    fetch(`/api/bingoData?id=${teamId}`, {method: 'PUT', body: JSON.stringify(bingoLayout)})
     .catch(err => console.log(err))
   };
+  const nextTeam = (e:React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if(teamId === MAXNUMBER) {
+      setTeamId(MINNUMBER)
+      getBingoData(MINNUMBER)
+      window.history.replaceState(null, "New Page Title", `/Bingo?id=${MINNUMBER}`)
+    }else {
+      setTeamId(tid => {return Number(tid)+1});
+      getBingoData(Number(teamId)+1)
+      window.history.replaceState(null, "New Page Title", `/Bingo?id=${Number(teamId)+1}`)
 
+    }
+  }
+  const prevTeam = (e:React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if(teamId === MINNUMBER) {
+      setTeamId(MAXNUMBER);
+      getBingoData(MAXNUMBER)
+      window.history.replaceState(null, "New Page Title", `/Bingo?id=${MAXNUMBER}`)
+    } else {
+      window.history.replaceState(null, "New Page Title", `/Bingo?id=${Number(teamId)-1}}`)
+      setTeamId(tid => {return Number(tid)-1});
+      getBingoData(Number(teamId)-1)
+    }
+  }
   return (
     <>
     <div>
-    <button onClick={handleChangeEdit}>Edit: {editMode?'ON':'OFF'}</button>
-    <button onClick={getBingoData} >GetData</button>
-
-    </div>
-      <div id="bingo-card" className="bingo-card">
-        <ul>
-         {editMode?editBoard:liveBoard}
-        </ul>
+      <div className='team-switcher'>
+        <a onClick={e=>prevTeam(e)}>&lt;</a>
+        <h1>Team: {teamId}</h1>
+        <a onClick={e=>nextTeam(e)}>&gt;</a>
       </div>
+      <button onClick={handleChangeEdit}>Edit: {editMode?'ON':'OFF'}</button>
+      {/* <button onClick={getBingoData} >GetData</button> */}
+    </div>
+    <div id="bingo-card" className="bingo-card">
+      <ul>
+        {editMode?editBoard:liveBoard}
+      </ul>
+    </div>
     </>
   )
 }

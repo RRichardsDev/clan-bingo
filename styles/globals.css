@@ -165,3 +165,12 @@ button:focus-visible {
   background-position: center;
   background-size: cover;
 }
+.team-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.team-switcher a {
+  padding: 2rem;
+  cursor: pointer;
+}
