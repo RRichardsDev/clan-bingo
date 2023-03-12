@@ -1,0 +1,167 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.container {
+  margin: auto;
+  text-align: center;
+}
+body{
+  display: flex;
+  justify-content: center;
+}
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.bingo-card{
+  background-image: url("https://cdn.vox-cdn.com/thumbor/IMFfzD-KQoJaVcrU8mWBqBa3gTo=/0x0:1698x934/1200x800/filters:focal(714x332:984x602)/cdn.vox-cdn.com/uploads/chorus_image/image/66166929/NeedleSkips.0.png");
+  background-size: cover;
+  width: 100%;
+}
+.bingo-card>ul{
+  padding:0;
+  width: 100%;
+}
+.card-row{
+  /* border: solid 1px red; */
+  display: flex;
+  justify-content:space-evenly;
+  padding: 0;
+}
+.card-item{
+  /* border: solid 1px blue; */
+  margin:0;
+  padding: 1rem;
+  width: 100%;
+  background-color: #c983955d;
+  border-radius: 0;
+  width:100px;
+  height: 100px;
+}
+.completed{
+  background-color: rgba(60, 143, 59, 0.505);
+  border: solid 2px rgba(42, 80, 41, 0.505);
+
+}
+.card-item:hover{
+  background-color: rgba(143, 147, 97, 0.8);
+  cursor: pointer;
+  border: 2px solid rgb(58, 105, 52);
+}
+.card-item:focus{
+  background-color: rgba(143, 147, 97, 0.8);
+  cursor: pointer;
+  border: 2px solid rgb(64, 47, 214);
+}
+#display-image{
+  width: 50px;
+  height: 50px;
+  background-position: center;
+  background-size: cover;
+}
